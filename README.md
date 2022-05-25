@@ -74,4 +74,18 @@ const io = require('socket.io')(server, {
 })
 ```
 
+- Подключить пользователя к "комнате"
+
+Установить соединение с клиентом и обработать полученные данные:
+
+```javascript
+socket.on('join', ({ name, room }, callBack) => { 
+  /* the rest of the code */
+  socket.join(user.room) // connect socket (user) to room
+  callBack(null)
+})
+```
+
+Информация о всех пользователях будет хранится в файле `user.js`.
+
 **Остальные этапы создания серверной части будут добавляться по мере развития проекта*.
