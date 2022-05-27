@@ -30,8 +30,18 @@ io.on('connection', (socket) => {
 
     // inform other users that a new user has joined our room
     socket.broadcast
-      .to(user.room)
-      .emit('message', { user: 'Bot', text: `${user.name} has joined!` })
+      .to(user.room).emit('message', {
+        user: 'Bot',
+        text: `${user.name} has joined!`
+      })
+
+    // sending message
+    socket.on('sendMessage', ({ textMessage }) => {
+      io.to(user.room).emit('message', {
+        user: user.name,
+        text: textMessage
+      })
+    })
   })
   socket.on('disconnect', () => {
     console.log('A disconnection has been made')
