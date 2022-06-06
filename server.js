@@ -1,6 +1,6 @@
 const http = require('http')
 const express = require('express')
-const { addUser } = require('./user')
+const { addUser, removeUser } = require('./user')
 
 const app = express()
 const server = http.createServer(app)
@@ -43,8 +43,14 @@ io.on('connection', (socket) => {
       })
     })
   })
+
+  // disconnect user
   socket.on('disconnect', () => {
-    console.log('A disconnection has been made')
+    const user = removeUser(socket.id)
+    io.to(user.room).emit('message', {
+      user: 'Bot',
+      text: `${user.name} just left the room`
+    })
   })
 })
 
